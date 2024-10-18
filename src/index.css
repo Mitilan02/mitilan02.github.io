@@ -1,0 +1,315 @@
+:root{
+  width: 70%;
+  margin: auto;
+  padding: 0;
+  background-color: black;
+  color: white;
+  font-family: "Afacad Flux", sans-serif;
+  min-height: 100vh;
+}
+
+html, body{
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+/* navbar */
+
+.header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav{
+  display: flex;
+  list-style-type: none;
+  margin-right: 50px;
+}
+
+.list-items{
+  font-size: 20px;
+  margin-left: 10px;
+  padding: 8px;
+}
+
+.list-items a{
+  color: white;
+  text-decoration: none;
+}
+
+.list-items a:hover{
+  text-decoration: underline aqua;
+}
+
+/* navbar */
+
+/* about */
+
+.about{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.text{
+  font-size: 2rem;
+}
+
+.text span{
+  color: aqua;
+}
+
+.dcv{
+  text-decoration: none;
+  border: none;
+  margin-top: 30px;
+  padding: 0.75rem 2.5rem;
+  color: white;
+  font-size: 20px;
+  background-image: linear-gradient(to right, #4b4064, #000000);
+  border-radius: 7px;
+}
+
+.ig ul{
+  list-style: none;
+  display: flex;
+  padding: 0;
+  font-size: 1.5rem;
+  margin-top: 3rem;
+}
+
+.ig ul li{
+  margin-right: 30px;
+}
+
+.image{
+  margin-top: 5rem;
+  border-radius: 50%;
+  height: 439px;
+  width: 439px;
+}
+
+.image:hover{
+  filter: drop-shadow(2px 2px 7px white);
+  cursor: pointer;
+}
+
+.abt{
+  font-size: large;
+  display: flex;
+  justify-content: space-between;
+}
+
+.abt-text{
+  margin-left: 20px;
+  margin-top: 9rem;
+  text-align: justify;
+}
+
+/* about */
+
+/* skills*/
+
+.skills{
+  font-size: large;
+  display: flex;
+  justify-content: space-between;
+}
+
+.skills img{
+  margin-top: 6rem;
+}
+
+.skill-icon{
+  font-size: 2rem;
+}
+
+.skill {
+  margin-bottom: 20px;
+}
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.skill-name {
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar {
+  background-color: black;
+  height: 0.25rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.progress {
+  height: 100%;
+  background-color: #40E0D0;
+}
+
+/* skills */
+
+/* timeline */
+
+.timeline{
+  display: flex;
+  justify-content: space-between;
+}
+
+.tline-items{
+  display: flex;
+  position: relative;
+}
+
+.tline-icon{
+  font-size: 2rem;
+  padding: 7px;
+  margin-right: 15px;
+}
+
+/* timeline */
+
+/* work */
+
+.work {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.work-items {
+  flex: 1;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.work-img img {
+  height: 300px;
+  width: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.work-items:hover img {
+  transform: scale(1.05);
+}
+
+/* Modal overlay styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px); /* Background blur */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal content styling */
+.modal-content {
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+  gap: 20px; /* Spacing between image and text */
+}
+
+.close-btn {
+  position: absolute;
+  top: 3rem;          
+  right: 11rem;       
+  background: transparent; 
+  border: none;       
+  font-size: 24px;    
+  color: white;       
+  cursor: pointer;    
+  font-weight: bold;  
+  padding: 10px;      
+  z-index: 1000;      
+}
+
+.close-btn:hover {
+  color: red;         
+}
+
+
+/* Modal image styling */
+.modal-content img {
+  height: 600px;
+  width: 550px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+/* Text in modal */
+.modal-content .work-text {
+  max-width: 50%;
+  text-align: justify;
+}
+
+/* Hide modal when not active */
+.modal-active {
+  filter: blur(5px);
+}
+
+/* work */
+
+/* contact */
+
+.contact{
+  margin: auto;
+  width: 500px;
+  justify-items: center;
+  text-align: center;
+}
+
+.contact .input{
+  margin-right: 15px;
+  margin: 15px;
+  border: none;
+  border-radius: 5px;
+  width: 80%;
+  padding: 10px;
+}
+
+.contact textarea{
+  height: 8rem;
+}
+
+.contact a{
+  width: 20%;
+  padding: 7px 18px;
+  margin: 15px; 
+  float: right; 
+}
+
+.cig{
+  list-style: none;
+  display: flex;
+  padding: 0;
+  font-size: 1.5rem;
+  justify-content: space-between;
+}
+
+/* contact */
+
+/* footer */
+
+.end{
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* footer */
