@@ -1,75 +1,106 @@
-import tlinePic from '../assets/timeline.png';
-import { useEffect } from 'react';
-import AOS from 'aos';
+const experience = [
+  {
+    date: 'Dec 2024 – Present',
+    title: 'Flutter Developer',
+    company: 'Smarther Technologies',
+    points: [
+      'Developed and maintained 6+ production Flutter apps across ecommerce, real estate, food delivery, and service platforms.',
+      'Implemented Bloc state management for scalable, testable app architecture.',
+      'Integrated Firebase Cloud Messaging (FCM) for foreground, background, and terminated notification states.',
+      'Integrated Razorpay and Stripe payment gateways with full success, failure, and retry coverage.',
+      'Managed end-to-end app deployment on Google Play Store and Apple App Store.',
+      'Collaborated with backend teams to optimize API performance on Android and iOS.',
+    ],
+  },
+  {
+    date: 'Jul 2024 – Aug 2024',
+    title: 'Web Development Intern',
+    company: 'Codsoft',
+    points: [
+      'Completed a web development internship building front-end projects.',
+      'Gained hands-on experience with HTML, CSS, and JavaScript.',
+    ],
+  },
+];
 
-function Timeline(){
+const education = [
+  {
+    date: '2020 – 2024',
+    title: 'B.E. Computer Science & Engineering',
+    institution: 'Dr. Sivanthi Aditanar College of Engineering',
+    desc: 'Anna University | CGPA: 8.25 / 10.0',
+  },
+  {
+    date: '2019 – 2020',
+    title: 'HSC (Higher Secondary)',
+    institution: 'STAR Matric Hr. Sec. School',
+    desc: 'Scored 73.17%',
+  },
+  {
+    date: '2017 – 2018',
+    title: 'SSLC (Secondary School)',
+    institution: 'STAR Matric Hr. Sec. School',
+    desc: 'Scored 84.2%',
+  },
+];
 
-    useEffect(() => {
-        AOS.init({ duration: 1200 }); // Customize the duration of animations
-    }, []);
+function Timeline() {
+  return (
+    <section id="experience">
+      <div className="container">
+        <div className="section-header" data-aos="fade-up">
+          <h2 className="section-title">Experience &amp; <span>Education</span></h2>
+          <div className="section-line" />
+        </div>
 
-    return(
-        <>
-            <div className='timeline'>
-                <div className='tline-img' data-aos="fade-right" data-aos-delay="250">
-                    <img src={tlinePic}></img>
+        <div className="timeline-grid">
+          {/* ── Experience ─────────────────── */}
+          <div data-aos="fade-right" data-aos-delay="100">
+            <h3>
+              <i className="bx bxs-briefcase" /> Work Experience
+            </h3>
+
+            {experience.map((item, i) => (
+              <div className="tl-item" key={i}>
+                <div className="tl-dot" />
+                <div className="tl-card">
+                  <div className="tl-date">{item.date}</div>
+                  <div className="tl-title">{item.title}</div>
+                  <div className="tl-sub">{item.company}</div>
+                  <div className="tl-desc">
+                    <ul>
+                      {item.points.map((p, j) => (
+                        <li key={j}>{p}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
+              </div>
+            ))}
+          </div>
 
-                <div className='tline-text' data-aos="fade-left" data-aos-delay="350">
-                    <div className='tline-items' data-aos="fade-left" data-aos-delay="250">
-                        <div className='tline-icon'>
-                            <i className='bx bxs-briefcase'></i>
-                        </div>
-                        <div className='tline-details'>
-                            <p>2017 - 2018</p>
-                            <h2>SSLC<span> - STAR Matric Hr. Sec. School</span></h2>
-                            <p>
-                                Completed my SSLC with 84.2%.
-                            </p>
-                        </div>
-                    </div>
-                    <div className='tline-items' data-aos="fade-left" data-aos-delay="250">
-                        <div className='tline-icon'>
-                            <i className='bx bxs-briefcase'></i>
-                        </div>
-                        <div className='tline-details'>
-                            <p>2019 - 2020</p>
-                            <h2>HSC<span> - STAR Matric Hr. Sec. School</span></h2>
-                            <p>
-                                Completed my HSC with 73.17%.
-                            </p>
-                        </div>
-                    </div>
-                    <div className='tline-items' data-aos="fade-left" data-aos-delay="250">
-                        <div className='tline-icon'>
-                            <i className='bx bxs-briefcase'></i>
-                        </div>
-                        <div className='tline-details'>
-                            <p>2020 - 2024</p>
-                            <h2>Computer Science Degree<span> - Anna University</span></h2>
-                            <p>
-                                Acquired bachelor's degree at Dr. Sivanthi Aditanar College<br></br> Of Engineering.<br></br>
-                                Completed with a CGPA of 8.3
-                            </p>
-                        </div>
-                    </div>
-                    <div className='tline-items' data-aos="fade-left" data-aos-delay="250">
-                        <div className='tline-icon'>
-                            <i className='bx bxs-briefcase'></i>
-                        </div>
-                        <div className='tline-details'>
-                            <p>2024</p>
-                            <h2>Internship<span> - Codsoft</span></h2>
-                            <p>
-                            Web Development Internship in the duration of <br></br>July 2024 - Aug 2024.
-                            </p>
-                        </div>
-                    </div>
+          {/* ── Education ──────────────────── */}
+          <div data-aos="fade-left" data-aos-delay="200">
+            <h3>
+              <i className="bx bxs-graduation" /> Education
+            </h3>
+
+            {education.map((item, i) => (
+              <div className="tl-item" key={i}>
+                <div className="tl-dot" />
+                <div className="tl-card">
+                  <div className="tl-date">{item.date}</div>
+                  <div className="tl-title">{item.title}</div>
+                  <div className="tl-sub">{item.institution}</div>
+                  <div className="tl-desc">{item.desc}</div>
                 </div>
-            </div>
-        </>
-    )
-
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default Timeline;

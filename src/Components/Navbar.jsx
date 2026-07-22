@@ -1,19 +1,54 @@
+import { useState } from 'react';
+
+const links = [
+  { label: 'Home',       href: '#home' },
+  { label: 'About',      href: '#about' },
+  { label: 'Skills',     href: '#skills' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects',   href: '#projects' },
+  { label: 'Contact',    href: '#contact' },
+];
 
 function Navbar() {
-    return(
-        <>
-            <div className="header">
-                <h2>Mitilan Depak</h2>
-                <ul className="nav">
-                    <li className="list-items"><a href="#">Home</a></li>
-                    <li className="list-items"><a href="#about">About</a></li>
-                    <li className="list-items"><a href="#skills">Skill</a></li>
-                    <li className="list-items"><a href="#work">Work</a></li>
-                    <li className="list-items"><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </>
-    )
+  const [open, setOpen] = useState(false);
+
+  return (
+    <nav className="navbar">
+      <div className="container">
+        <span className="nav-logo">
+          Mitilan<span>.</span>
+        </span>
+
+        <ul className="nav-links">
+          {links.map((l) => (
+            <li key={l.label}>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+
+        <button
+          className={`hamburger${open ? ' open' : ''}`}
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      <ul className={`mobile-menu${open ? ' open' : ''}`}>
+        {links.map((l) => (
+          <li key={l.label}>
+            <a href={l.href} onClick={() => setOpen(false)}>
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
 }
 
 export default Navbar;

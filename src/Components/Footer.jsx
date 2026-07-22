@@ -1,22 +1,13 @@
-import React, {useEffect} from 'react';
-import AOS from 'aos';
-
-function Footer(){
-
-    useEffect(() => {
-        AOS.init({ duration: 1200 }); // Customize the duration of animations
-    }, []);
-
-    return(
-        <>
-            <div>
-                <footer className='end'>
-                    <h1>&copy; Mitilan Depak. All rights reserved.</h1>
-                </footer>
-            </div>
-        </>
-    )
-
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="container">
+        <p>
+          &copy; {new Date().getFullYear()} <span>Mitilan Depak</span>. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
 }
 
 export default Footer;
