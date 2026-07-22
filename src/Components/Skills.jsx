@@ -132,36 +132,39 @@ function SkillCard({ skill, index }) {
   const [flipped, setFlipped] = useState(false)
 
   const cssVars = {
-    '--c':     skill.color,
-    '--c-dim': skill.colorDim,
-    '--c-glow':skill.colorGlow,
-    '--c-bdr': skill.colorBorder,
-    '--c-grad':skill.gradient,
+    '--c':      skill.color,
+    '--c-dim':  skill.colorDim,
+    '--c-glow': skill.colorGlow,
+    '--c-bdr':  skill.colorBorder,
+    '--c-grad': skill.gradient,
   }
 
-  /* alternate flip direction per row for variety */
   const entryVariant = index % 2 === 0 ? flipLeft : flipRight
 
   return (
+    /* ── Entry wrapper (whileInView only) ── */
     <motion.div
       variants={entryVariant}
       initial="hidden"
       whileInView="visible"
       viewport={viewport}
       transition={{ delay: index * 0.08 }}
-      /* expand + float above neighbours on hover */
-      whileHover={{ scale: 1.06, zIndex: 10 }}
-      style={{ position: 'relative', zIndex: 1, ...cssVars }}
-      className={`s-flip${flipped ? ' is-flipped' : ''}`}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
-      onClick={() => setFlipped((f) => !f)}
+      style={{ position: 'relative', zIndex: flipped ? 10 : 1 }}
     >
-      <div className="s-flip-inner">
+      {/* ── Flip + height-expand card ── */}
+      <motion.div
+        className={`s-flip${flipped ? ' is-flipped' : ''}`}
+        style={cssVars}
+        animate={{ height: flipped ? 270 : 190 }}
+        transition={{ height: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+        onMouseEnter={() => setFlipped(true)}
+        onMouseLeave={() => setFlipped(false)}
+        onClick={() => setFlipped((f) => !f)}
+      >
+        <div className="s-flip-inner">
 
           {/* ── FRONT ── */}
           <div className="s-face s-front" onMouseMove={spotlight}>
-            {/* ghost percentage watermark */}
             <span className="s-ghost-pct">{skill.pct}</span>
             <span className="s-hint" aria-hidden="true">
               <i className="bx bx-rotate-right" /> hover
@@ -221,10 +224,10 @@ function SkillCard({ skill, index }) {
               {skill.points.map((p, i) => <li key={i}>{p}</li>)}
             </ul>
 
-            {/* percentage pill at bottom */}
             <div className="s-back-pct">{skill.pct}%</div>
           </div>
         </div>
+      </motion.div>
     </motion.div>
   )
 }

@@ -519,9 +519,8 @@ section { padding: 2.5rem 0; position: relative; z-index: 1; }
   overflow: visible; /* let scaled cards bleed outside grid bounds */
 }
 
-/* ── Flip shell ── */
+/* ── Flip shell — height is animated by Framer Motion ── */
 .s-flip {
-  height: 200px;           /* tight — content fills it cleanly */
   cursor: pointer;
   perspective: 1000px;
   --c:      var(--accent);
@@ -534,7 +533,7 @@ section { padding: 2.5rem 0; position: relative; z-index: 1; }
 .s-flip-inner {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100%;          /* always fill whatever height Framer Motion sets */
   transition: transform 0.72s cubic-bezier(0.23, 1, 0.32, 1);
   transform-style: preserve-3d;
   will-change: transform;
@@ -922,12 +921,10 @@ section { padding: 2.5rem 0; position: relative; z-index: 1; }
   overflow: visible; /* allow scaled cards to bleed outside */
 }
 
-/* ── Flip card shell ── */
+/* ── Flip card shell — height animated by Framer Motion ── */
 .flip-card {
-  height: 390px;
   cursor: pointer;
   perspective: 1100px;
-  /* CSS-var defaults (overridden per-card inline) */
   --c:      var(--accent);
   --c-dim:  var(--accent-dim);
   --c-glow: rgba(129,140,248,0.25);
@@ -938,7 +935,7 @@ section { padding: 2.5rem 0; position: relative; z-index: 1; }
 .flip-card-inner {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100%;          /* always fill whatever height Framer Motion sets */
   transition: transform 0.75s cubic-bezier(0.23, 1, 0.32, 1);
   transform-style: preserve-3d;
   will-change: transform;
@@ -1379,11 +1376,9 @@ section { padding: 2.5rem 0; position: relative; z-index: 1; }
   .hero-img-ring { width: 210px; height: 210px; }
   .about-card { flex-direction: column; text-align: center; }
   .skill-cards-grid { grid-template-columns: 1fr 1fr; }
-  .s-flip { height: 190px; }
-  .timeline-grid, .contact-inner { grid-template-columns: 1fr; gap: 1.75rem; }
   .projects-grid { grid-template-columns: 1fr 1fr; }
-  .flip-card { height: 360px; }
-  .tech-stack { grid-template-columns: repeat(4, 1fr); }
+  .timeline-grid, .contact-inner { grid-template-columns: 1fr; gap: 1.75rem; }
+  .tech-stack    { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (max-width: 600px) {
@@ -1393,9 +1388,7 @@ section { padding: 2.5rem 0; position: relative; z-index: 1; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .skill-cards-grid { grid-template-columns: 1fr; }
-  .s-flip { height: 185px; }
   .projects-grid { grid-template-columns: 1fr; }
-  .flip-card     { height: 340px; }
   .tech-stack { grid-template-columns: repeat(3, 1fr); }
   .about-stats { gap: 0.65rem; }
   .stat-card { min-width: 85px; }

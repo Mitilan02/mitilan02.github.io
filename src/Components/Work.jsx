@@ -159,16 +159,21 @@ function FlipCard({ project }) {
   }
 
   return (
+    /* Entry wrapper */
     <motion.div
       variants={staggerItem}
-      className={`flip-card${flipped ? ' is-flipped' : ''}`}
-      style={{ position: 'relative', zIndex: 1, ...cssVars }}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
-      onClick={() => setFlipped((f) => !f)}
-      whileHover={{ scale: 1.04, zIndex: 10 }}
-      transition={{ scale: { type: 'spring', stiffness: 280, damping: 22 } }}
+      style={{ position: 'relative', zIndex: flipped ? 10 : 1 }}
     >
+      {/* Flip + height-expand card */}
+      <motion.div
+        className={`flip-card${flipped ? ' is-flipped' : ''}`}
+        style={cssVars}
+        animate={{ height: flipped ? 460 : 320 }}
+        transition={{ height: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+        onMouseEnter={() => setFlipped(true)}
+        onMouseLeave={() => setFlipped(false)}
+        onClick={() => setFlipped((f) => !f)}
+      >
       <div className="flip-card-inner">
 
         {/* ── FRONT ── */}
@@ -234,7 +239,8 @@ function FlipCard({ project }) {
             ))}
           </div>
         </div>
-      </div>
+        </div>
+      </motion.div>
     </motion.div>
   )
 }
