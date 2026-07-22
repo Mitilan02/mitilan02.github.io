@@ -162,11 +162,12 @@ function FlipCard({ project }) {
     <motion.div
       variants={staggerItem}
       className={`flip-card${flipped ? ' is-flipped' : ''}`}
-      style={cssVars}
-      /* desktop: hover flips; mobile: click toggles */
+      style={{ position: 'relative', zIndex: 1, ...cssVars }}
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
       onClick={() => setFlipped((f) => !f)}
+      whileHover={{ scale: 1.04, zIndex: 10 }}
+      transition={{ scale: { type: 'spring', stiffness: 280, damping: 22 } }}
     >
       <div className="flip-card-inner">
 

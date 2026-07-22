@@ -149,50 +149,48 @@ function SkillCard({ skill, index }) {
       whileInView="visible"
       viewport={viewport}
       transition={{ delay: index * 0.08 }}
+      /* expand + float above neighbours on hover */
+      whileHover={{ scale: 1.06, zIndex: 10 }}
+      style={{ position: 'relative', zIndex: 1, ...cssVars }}
+      className={`s-flip${flipped ? ' is-flipped' : ''}`}
+      onMouseEnter={() => setFlipped(true)}
+      onMouseLeave={() => setFlipped(false)}
+      onClick={() => setFlipped((f) => !f)}
     >
-      <div
-        className={`s-flip${flipped ? ' is-flipped' : ''}`}
-        style={cssVars}
-        onMouseEnter={() => setFlipped(true)}
-        onMouseLeave={() => setFlipped(false)}
-        onClick={() => setFlipped((f) => !f)}
-      >
-        <div className="s-flip-inner">
+      <div className="s-flip-inner">
 
           {/* ── FRONT ── */}
           <div className="s-face s-front" onMouseMove={spotlight}>
             {/* ghost percentage watermark */}
             <span className="s-ghost-pct">{skill.pct}</span>
-
-            {/* icon */}
-            <div className="s-icon">
-              <i className={`bx ${skill.icon}`} />
-            </div>
-
-            {/* name */}
-            <div className="s-name">{skill.label}</div>
-
-            {/* progress bar */}
-            <div className="s-bar-track">
-              <motion.div
-                className="s-bar-fill"
-                initial={{ width: 0 }}
-                whileInView={{ width: `${skill.pct}%` }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 1.1, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              />
-            </div>
-
-            {/* percentage label */}
-            <div className="s-pct-row">
-              <span className="s-pct-label">Proficiency</span>
-              <span className="s-pct-val">{skill.pct}%</span>
-            </div>
-
-            {/* flip hint */}
             <span className="s-hint" aria-hidden="true">
               <i className="bx bx-rotate-right" /> hover
             </span>
+
+            {/* TOP GROUP: icon + name */}
+            <div className="s-top">
+              <div className="s-icon">
+                <i className={`bx ${skill.icon}`} />
+              </div>
+              <div className="s-name">{skill.label}</div>
+            </div>
+
+            {/* BOTTOM GROUP: bar + percentage */}
+            <div className="s-bottom">
+              <div className="s-bar-track">
+                <motion.div
+                  className="s-bar-fill"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${skill.pct}%` }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 1.1, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                />
+              </div>
+              <div className="s-pct-row">
+                <span className="s-pct-label">Proficiency</span>
+                <span className="s-pct-val">{skill.pct}%</span>
+              </div>
+            </div>
           </div>
 
           {/* ── BACK ── */}
@@ -227,7 +225,6 @@ function SkillCard({ skill, index }) {
             <div className="s-back-pct">{skill.pct}%</div>
           </div>
         </div>
-      </div>
     </motion.div>
   )
 }
