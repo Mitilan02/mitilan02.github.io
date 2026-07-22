@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react'
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion'
+import { fadeUp, staggerContainer, staggerItem, viewport } from '../animations'
 
 const projects = [
   {
     icon: 'bx bx-wrench',
     category: 'Multi-Role Workflow',
     title: 'Service Center Management App',
-    excerpt:
-      'A complex role-based Flutter application supporting Technicians, Sub-Technicians, Delivery Partners, Pickup Personnel, and Telecallers in a single unified platform.',
-    description:
-      'Architected a comprehensive service center management system with a complete end-to-end service lifecycle: Pickup → Assignment → Repair → Delivery. Features dynamic role-based landing UI with controlled feature access, status-driven workflow management, and real-time data synchronization across all user roles.',
+    excerpt: 'Complex role-based Flutter app supporting Technicians, Sub-Technicians, Delivery Partners, Pickup Personnel, and Telecallers in one platform.',
+    description: 'Architected a comprehensive service center management system with a complete end-to-end service lifecycle: Pickup → Assignment → Repair → Delivery.',
     features: [
       'Multi-role architecture: Technician, Sub-Technician, Delivery Partner, Pickup Personnel, Telecaller',
       'Complete service lifecycle — Pickup → Assignment → Repair → Delivery',
@@ -24,10 +24,8 @@ const projects = [
     icon: 'bx bx-store-alt',
     category: 'Ecommerce + Home Service',
     title: 'Hybrid Commerce & Service App',
-    excerpt:
-      'A hybrid platform combining product purchasing and home service booking in a single Flutter application with integrated payment processing.',
-    description:
-      'Built a dual-purpose platform that allows users to both purchase products and book home services. Features a complete cart and checkout flow with Razorpay and Stripe payment gateways, real-time inventory updates via REST APIs, and a seamless UX across both Android and iOS.',
+    excerpt: 'Dual-platform combining product purchasing and home service booking with Razorpay & Stripe payment gateways.',
+    description: 'Built a dual-purpose platform that allows users to both purchase products and book home services with a complete cart and checkout flow.',
     features: [
       'Hybrid platform: product purchasing + home service booking',
       'Complete cart, checkout, and payment flow',
@@ -42,10 +40,8 @@ const projects = [
     icon: 'bx bx-building-house',
     category: 'Real Estate',
     title: 'Real Estate Customer App',
-    excerpt:
-      'A customer-facing real estate application enabling maintenance booking, modification requests, and payment history tracking.',
-    description:
-      'Developed a property management companion app for real estate customers. Enables structured maintenance booking workflows, modification request handling, and full payment history visibility to improve financial transparency and streamline customer-property interactions.',
+    excerpt: 'Customer-facing app enabling maintenance booking, modification requests, and payment history tracking.',
+    description: 'Developed a property management companion app for real estate customers with structured maintenance booking workflows.',
     features: [
       'Maintenance booking and modification request workflows',
       'Structured customer interaction flows',
@@ -58,10 +54,8 @@ const projects = [
     icon: 'bx bx-food-menu',
     category: 'Food Delivery',
     title: 'Food Delivery Applications',
-    excerpt:
-      'Multiple food ordering apps handling the complete order lifecycle from placement to delivery with real-time push notifications.',
-    description:
-      'Developed multiple food ordering applications covering the full order lifecycle. Integrated Firebase FCM for real-time order status updates, optimized UI performance for smooth user experience on both Android and iOS, and ensured reliable data flow between customer, restaurant, and delivery partner.',
+    excerpt: 'Multiple food ordering apps covering the complete order lifecycle with real-time push notifications.',
+    description: 'Developed multiple food ordering applications covering the full order lifecycle from placement to delivery.',
     features: [
       'Complete order lifecycle: placement → preparation → delivery',
       'Firebase FCM for real-time order status push notifications',
@@ -74,10 +68,8 @@ const projects = [
     icon: 'bx bx-purchase-tag-alt',
     category: 'Deals & Services',
     title: 'Deals & Service Platform',
-    excerpt:
-      'Applications for deal discovery and service workflows featuring advanced filtering, dynamic listings, and user interaction features.',
-    description:
-      'Built feature-rich applications focused on deal discovery and service management. Implemented advanced filtering, search, and dynamic listing features to improve discoverability. Designed user interaction patterns that reduce friction in finding and booking deals and services.',
+    excerpt: 'Deal discovery and service workflow apps with advanced filtering, dynamic listings, and search.',
+    description: 'Built feature-rich applications focused on deal discovery and service management.',
     features: [
       'Deal discovery with advanced filtering and search',
       'Dynamic service listing with real-time updates',
@@ -87,79 +79,125 @@ const projects = [
     ],
     tags: ['Flutter', 'Bloc', 'REST API', 'Android', 'iOS'],
   },
-];
+]
+
+// ── 3-D Tilt Card ──────────────────────────────────
+function TiltCard({ children, onClick }) {
+  const ref = useRef(null)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]),  { stiffness: 300, damping: 30 })
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]),  { stiffness: 300, damping: 30 })
+
+  const handleMouseMove = (e) => {
+    const rect = ref.current.getBoundingClientRect()
+    x.set((e.clientX - rect.left) / rect.width  - 0.5)
+    y.set((e.clientY - rect.top)  / rect.height - 0.5)
+  }
+
+  const handleMouseLeave = () => { x.set(0); y.set(0) }
+
+  return (
+    <div className="tilt-wrap" ref={ref} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={onClick}>
+      <motion.div
+        className="project-card"
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  )
+}
 
 function Work() {
-  const [active, setActive] = useState(null);
+  const [active, setActive] = useState(null)
 
   return (
     <section id="projects">
       <div className="container">
-        <div className="section-header" data-aos="fade-up">
+        <motion.div
+          className="section-header"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <h2 className="section-title">Key <span>Projects</span></h2>
           <div className="section-line" />
-        </div>
+        </motion.div>
 
-        <div className="projects-grid">
+        <motion.div
+          className="projects-grid"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           {projects.map((p, i) => (
-            <div
-              className="project-card"
-              key={i}
-              onClick={() => setActive(i)}
-              data-aos="fade-up"
-              data-aos-delay={i * 80}
-            >
-              <div className="project-icon">
-                <i className={p.icon} />
-              </div>
-              <div className="project-category">{p.category}</div>
-              <div className="project-title">{p.title}</div>
-              <p className="project-excerpt">{p.excerpt}</p>
-              <div className="project-tags">
-                {p.tags.map((t) => (
-                  <span className="tag" key={t}>{t}</span>
-                ))}
-              </div>
-            </div>
+            <motion.div key={i} variants={staggerItem}>
+              <TiltCard onClick={() => setActive(i)}>
+                <div className="project-icon"><i className={p.icon} /></div>
+                <div className="project-category">{p.category}</div>
+                <div className="project-title">{p.title}</div>
+                <p className="project-excerpt">{p.excerpt}</p>
+                <div className="project-tags">
+                  {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+                </div>
+              </TiltCard>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        <p className="project-hint" data-aos="fade-up">
+        <motion.p
+          className="project-hint"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           Click any card for full project details
-        </p>
+        </motion.p>
       </div>
 
-      {/* ── Modal ──────────────────────────── */}
-      {active !== null && (
-        <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setActive(null); }}>
-          <div className="modal-box" data-aos="zoom-in" data-aos-duration="300">
-            <button className="modal-close" onClick={() => setActive(null)}>
-              <i className="bx bx-x" />
-            </button>
-
-            <div className="modal-icon">
-              <i className={projects[active].icon} />
-            </div>
-            <div className="modal-category">{projects[active].category}</div>
-            <h2 className="modal-title">{projects[active].title}</h2>
-            <p className="modal-desc">{projects[active].description}</p>
-
-            <ul className="modal-features">
-              {projects[active].features.map((f, i) => (
-                <li key={i}>{f}</li>
-              ))}
-            </ul>
-
-            <div className="modal-tags">
-              {projects[active].tags.map((t) => (
-                <span className="tag" key={t}>{t}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ── Modal ── */}
+      <AnimatePresence>
+        {active !== null && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={(e) => { if (e.target === e.currentTarget) setActive(null) }}
+          >
+            <motion.div
+              className="modal-box"
+              initial={{ opacity: 0, scale: 0.88, y: 30 }}
+              animate={{ opacity: 1, scale: 1,    y: 0  }}
+              exit={{ opacity: 0, scale: 0.92,   y: 20 }}
+              transition={{ type: 'spring', stiffness: 280, damping: 24 }}
+            >
+              <button className="modal-close" onClick={() => setActive(null)}>
+                <i className="bx bx-x" />
+              </button>
+              <div className="modal-icon"><i className={projects[active].icon} /></div>
+              <div className="modal-category">{projects[active].category}</div>
+              <h2 className="modal-title">{projects[active].title}</h2>
+              <p className="modal-desc">{projects[active].description}</p>
+              <ul className="modal-features">
+                {projects[active].features.map((f, i) => <li key={i}>{f}</li>)}
+              </ul>
+              <div className="modal-tags">
+                {projects[active].tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
-  );
+  )
 }
 
-export default Work;
+export default Work

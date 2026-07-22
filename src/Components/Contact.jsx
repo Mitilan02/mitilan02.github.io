@@ -1,26 +1,48 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { slideLeft, slideRight, staggerContainer, staggerItem, viewport } from '../animations'
 
 function Contact() {
-  const [name, setName] = useState('');
-  const [message, setMessage] = useState('');
+  const [name,    setName]    = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const mailtoLink = `mailto:mitilan02@gmail.com?subject=Contact%20from%20${encodeURIComponent(name)}&body=${encodeURIComponent(message)}`;
-    window.location.href = mailtoLink;
-  };
+    e.preventDefault()
+    const link = `mailto:mitilan02@gmail.com?subject=Contact%20from%20${encodeURIComponent(name)}&body=${encodeURIComponent(message)}`
+    window.location.href = link
+  }
+
+  const details = [
+    { icon: 'bx-envelope',  text: 'mitilan02@gmail.com',                                        href: 'mailto:mitilan02@gmail.com'                          },
+    { icon: 'bx-phone',     text: '+91 8220617220',                                             href: 'tel:+918220617220'                                   },
+    { icon: 'bx-map',       text: 'Tamil Nadu, India',                                          href: null                                                  },
+    { icon: 'bxl-github',   text: 'github.com/Mitilan02',                                       href: 'https://github.com/Mitilan02'                        },
+    { icon: 'bxl-linkedin', text: 'linkedin.com/in/mitilan-depak',                              href: 'https://www.linkedin.com/in/mitilan-depak-063962239/' },
+  ]
 
   return (
     <section id="contact">
       <div className="container">
-        <div className="section-header" data-aos="fade-up">
+        <motion.div
+          className="section-header"
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <h2 className="section-title">Get In <span>Touch</span></h2>
           <div className="section-line" />
-        </div>
+        </motion.div>
 
         <div className="contact-inner">
-          {/* ── Info ──────────────────────── */}
-          <div data-aos="fade-right" data-aos-delay="100">
+          {/* Info */}
+          <motion.div
+            className="contact-info"
+            variants={slideLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             <h3>Let's work together</h3>
             <p>
               I'm open to full-time opportunities, freelance projects, and
@@ -28,78 +50,78 @@ function Contact() {
               feel free to reach out!
             </p>
 
-            <div className="contact-detail-list">
-              <div className="contact-detail">
-                <i className="bx bx-envelope" />
-                <span>mitilan02@gmail.com</span>
-              </div>
-              <div className="contact-detail">
-                <i className="bx bx-phone" />
-                <span>+91 8220617220</span>
-              </div>
-              <div className="contact-detail">
-                <i className="bx bx-map" />
-                <span>Tamil Nadu, India</span>
-              </div>
-              <a
-                href="https://github.com/Mitilan02"
-                target="_blank"
-                rel="noreferrer"
-                className="contact-detail"
-                style={{ cursor: 'pointer' }}
-              >
-                <i className="bx bxl-github" />
-                <span>github.com/Mitilan02</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/mitilan-depak-063962239/"
-                target="_blank"
-                rel="noreferrer"
-                className="contact-detail"
-                style={{ cursor: 'pointer' }}
-              >
-                <i className="bx bxl-linkedin" />
-                <span>linkedin.com/in/mitilan-depak</span>
-              </a>
-            </div>
-          </div>
+            <motion.div
+              className="contact-detail-list"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+            >
+              {details.map((d, i) => (
+                <motion.a
+                  key={i}
+                  className="contact-detail"
+                  href={d.href || undefined}
+                  target={d.href?.startsWith('http') ? '_blank' : undefined}
+                  rel="noreferrer"
+                  variants={staggerItem}
+                  whileHover={{ x: 6 }}
+                  style={{ cursor: d.href ? 'pointer' : 'default' }}
+                >
+                  <i className={`bx ${d.icon}`} />
+                  <span>{d.text}</span>
+                </motion.a>
+              ))}
+            </motion.div>
+          </motion.div>
 
-          {/* ── Form ──────────────────────── */}
-          <div data-aos="fade-left" data-aos-delay="200">
+          {/* Form */}
+          <motion.div
+            variants={slideRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             <form className="contact-form neo-card" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Your Name</label>
+              <motion.div className="form-group" variants={staggerItem}>
+                <label htmlFor="c-name">Your Name</label>
                 <input
-                  id="name"
+                  id="c-name"
                   className="form-control"
                   placeholder="John Doe"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
-              </div>
+              </motion.div>
 
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
+              <motion.div className="form-group" variants={staggerItem}>
+                <label htmlFor="c-msg">Message</label>
                 <textarea
-                  id="message"
+                  id="c-msg"
                   className="form-control textarea"
                   placeholder="Write your message..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   required
                 />
-              </div>
+              </motion.div>
 
-              <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-end' }}>
+              <motion.button
+                type="submit"
+                className="btn-primary"
+                style={{ alignSelf: 'flex-end' }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+              >
                 Send Message
-              </button>
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
-  );
+  )
 }
 
-export default Contact;
+export default Contact

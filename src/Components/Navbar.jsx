@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { fadeIn, viewport } from '../animations'
 
 const links = [
   { label: 'Home',       href: '#home' },
@@ -7,48 +9,75 @@ const links = [
   { label: 'Experience', href: '#experience' },
   { label: 'Projects',   href: '#projects' },
   { label: 'Contact',    href: '#contact' },
-];
+]
 
 function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
-    <nav className="navbar">
+    <motion.nav
+      className="navbar"
+      variants={fadeIn}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="container">
-        <span className="nav-logo">
+        <motion.span
+          className="nav-logo"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           Mitilan<span>.</span>
-        </span>
+        </motion.span>
 
-        <ul className="nav-links">
+        <motion.ul
+          className="nav-links"
+          initial="hidden"
+          animate="visible"
+          variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } } }}
+        >
           {links.map((l) => (
-            <li key={l.label}>
+            <motion.li
+              key={l.label}
+              variants={{
+                hidden:  { opacity: 0, y: -12 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+              }}
+            >
               <a href={l.href}>{l.label}</a>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
 
         <button
           className={`hamburger${open ? ' open' : ''}`}
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
-          <span />
-          <span />
-          <span />
+          <span /><span /><span />
         </button>
       </div>
 
-      <ul className={`mobile-menu${open ? ' open' : ''}`}>
-        {links.map((l) => (
-          <li key={l.label}>
-            <a href={l.href} onClick={() => setOpen(false)}>
-              {l.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            className="mobile-menu open"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+          >
+            {links.map((l) => (
+              <li key={l.label}>
+                <a href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </motion.nav>
+  )
 }
 
-export default Navbar;
+export default Navbar
