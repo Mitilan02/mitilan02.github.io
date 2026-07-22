@@ -1,25 +1,45 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { fadeIn, viewport } from '../animations'
+import { useMagnetic } from '../hooks/useMagnetic'
 
 const links = [
-  { label: 'Home',       href: '#home' },
-  { label: 'About',      href: '#about' },
-  { label: 'Skills',     href: '#skills' },
+  { label: 'Home',       href: '#home'       },
+  { label: 'About',      href: '#about'      },
+  { label: 'Skills',     href: '#skills'     },
   { label: 'Experience', href: '#experience' },
-  { label: 'Projects',   href: '#projects' },
-  { label: 'Contact',    href: '#contact' },
+  { label: 'Projects',   href: '#projects'   },
+  { label: 'Contact',    href: '#contact'    },
 ]
 
-function Navbar() {
+function MagNavLink({ label, href, onClick }) {
+  const { ref, motionStyle, onMouseMove, onMouseLeave } = useMagnetic(0.3)
+  return (
+    <motion.li>
+      <motion.a
+        ref={ref}
+        href={href}
+        onClick={onClick}
+        style={motionStyle}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        whileHover={{ color: 'var(--accent)', backgroundColor: 'var(--accent-dim)' }}
+        className="nav-link-item"
+      >
+        {label}
+      </motion.a>
+    </motion.li>
+  )
+}
+
+export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
     <motion.nav
       className="navbar"
-      variants={fadeIn}
-      initial="hidden"
-      animate="visible"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
     >
       <div className="container">
         <motion.span
@@ -38,15 +58,7 @@ function Navbar() {
           variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } } }}
         >
           {links.map((l) => (
-            <motion.li
-              key={l.label}
-              variants={{
-                hidden:  { opacity: 0, y: -12 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-              }}
-            >
-              <a href={l.href}>{l.label}</a>
-            </motion.li>
+            <MagNavLink key={l.label} {...l} />
           ))}
         </motion.ul>
 
@@ -64,8 +76,8 @@ function Navbar() {
           <motion.ul
             className="mobile-menu open"
             initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1,  y: 0  }}
+            exit={{    opacity: 0,  y: -10 }}
             transition={{ duration: 0.25 }}
           >
             {links.map((l) => (
@@ -79,5 +91,3 @@ function Navbar() {
     </motion.nav>
   )
 }
-
-export default Navbar

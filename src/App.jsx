@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import { motion, useScroll, useSpring } from 'framer-motion'
+import Cursor   from './Components/Cursor'
 import Background from './Components/Background'
 import About    from './Components/About'
 import Contact  from './Components/Contact'
@@ -11,31 +12,22 @@ import Timeline from './Components/Timeline'
 import Work     from './Components/Work'
 
 function App() {
-  // ── Lenis smooth scroll ──────────────────
+  // Lenis smooth scroll
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    })
-
-    const raf = (time) => {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
+    const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf) }
     requestAnimationFrame(raf)
-
     return () => lenis.destroy()
   }, [])
 
-  // ── Scroll progress bar ──────────────────
+  // Scroll-progress bar
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
 
   return (
     <>
-      {/* thin progress bar pinned to top */}
+      <Cursor />
       <motion.div className="scroll-progress" style={{ scaleX }} />
-
       <Background />
       <Navbar />
       <About />
